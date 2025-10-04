@@ -14,6 +14,10 @@ def __get_functions_ending_with(postfix, directory):
   return choices
 def __parse_comma_separated_list(csl):
   return csl.split(",")
+def __print_comma_separated_list(csl):
+  cslStr=""
+  for wi in csl: cslStr+=str(wi)+","
+  return cslStr
 ## Activation Functions
 def relU_active_func(neuronOutputs):
   outputs=[]
@@ -152,11 +156,11 @@ for batchCount in range(0, trainBatchNumber):
     batchLoss+=exampleLoss
     exampleCount=exampleCount+1
   # Same weghts can produce different losses across different batches, but they should be close.
-  print("Batch {} finished processing. Loss: {} -- Weights: {}".format(batchCount, batchLoss, weights))
+  print("Batch {} finished processing. Loss: {} -- Weights: {}".format(batchCount, batchLoss, __print_comma_separated_list(weights)))
   if batchLoss > loss :
     #loss=previousLoss
     weights=oldWeights.copy() # Backtracking makes sense with stochastic weights choices.
-    print("No loss improvement. Reverted back to old weights. Loss: {} -- Weights: {}".format(loss, weights))
+    print("No loss improvement. Reverted back to old weights. Loss: {} -- Weights: {}".format(loss, __print_comma_separated_list(weights)))
   else:
     loss=batchLoss
   if batchCount+1 != trainBatchNumber: # Skip adjusting for last layer.
